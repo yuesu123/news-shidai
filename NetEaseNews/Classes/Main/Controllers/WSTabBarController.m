@@ -91,7 +91,7 @@
 }
 
 
-- (NSArray *)getTabbarArr:(NSMutableArray*)arr{
+- (NSMutableArray *)getTabbarArr:(NSMutableArray*)arr{
     NSMutableArray *newArr = [NSMutableArray array];
     for (int i = 0; i < arr.count; i++) {
         WSOneMenuModel *model = [arr objectAtIndex:i];
@@ -99,9 +99,18 @@
             [newArr addObject:model];
         }
     }
-    NSRange range = NSMakeRange(0, 3);
+    NSRange range = NSMakeRange(0, 2);
+    if(newArr.count == 3){
+        range = NSMakeRange(0, 3);
+    }else if(newArr.count == 2){
+        range = NSMakeRange(0, 2);
+    }else if(newArr.count == 1){
+        range = NSMakeRange(0, 1);
+    }else if(newArr.count == 0){
+        range = NSMakeRange(0, 0);
+    }
     NSArray *arraySort = [newArr subarrayWithRange:range];
-    NSArray *arraySortAfter = [arraySort sortedArrayUsingComparator:
+    NSMutableArray *arraySortAfter = [arraySort sortedArrayUsingComparator:
                        ^NSComparisonResult(WSOneMenuModel *obj1, WSOneMenuModel *obj2) {
                            // 先按照姓排序
                            NSComparisonResult result = [getStrFromIntger(obj1.Parentid) compare:getStrFromIntger(obj2.Parentid)];

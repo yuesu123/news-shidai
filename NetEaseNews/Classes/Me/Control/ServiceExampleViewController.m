@@ -18,6 +18,17 @@
 
 @implementation ServiceExampleViewController
 
+- (void)viewDidDisappear:(BOOL)animated{
+    if (_uploadImage) {
+        _uploadImage();
+    }
+}
+
+- (void)uploadImage:(UploadImage)uploadImage{
+    _uploadImage = uploadImage;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];

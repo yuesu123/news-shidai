@@ -14,6 +14,7 @@
 #import "QTSettingTableViewController.h"
 #import "CollectViewController.h"
 #import "QTUMShareTool.h"
+#import "UIImageView+WebCache.h"
 
 @interface MeTableViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *userHeaderImage;
@@ -44,6 +45,7 @@
 #pragma mark View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self LoadDataUserImage];
     [QTCommonTools clipAllView:_userHeaderImage Radius:_userHeaderImage.frame.size.width*0.5 borderWidth:0 borderColor:nil];
     self.tableView.tableFooterView = [[UIView alloc] init];
     [self setLoginBtnTitle];
@@ -71,6 +73,8 @@
      [vc loginSuccessBlock:^(NSDictionary *dic) {
          NSString *phone =[QTUserInfo sharedQTUserInfo].phoneNum;
          [_loginBtn setTitle:phone forState:UIControlStateNormal];
+//         _userHeaderImage.image = [UIImage imageNamed:@"me_headerimage"];
+         [self LoadDataUserImage];
          [MBProgressHUD showSuccess:@"登录成功"];
      }];
     [self.navigationController pushViewController:vc animated:YES];
@@ -97,6 +101,7 @@
     vc.title = @"设置";
     [vc loginSuccessBlock:^(NSDictionary *dic) {
         [self.loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+        _userHeaderImage.image = [UIImage imageNamed:@"me_headerimage"];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -161,9 +166,33 @@
 - (void)gotoVcUrl:(NSString*)url title:(NSString*)title{
     ServiceExampleViewController *vc = [[ServiceExampleViewController alloc] init];
     vc.titleStr = title;
+    if([title isEqualToString:@"我的头像"]){
+        vc.uploadImage = ^{
+            [self LoadDataUserImage];
+        };
+    }
     NSString *urlnew = [NSString stringWithFormat:@"%@?userid=%@",url,[QTUserInfo sharedQTUserInfo].userId];
+    
     vc.urlStr = urlnew;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+- (void)LoadDataUserImage{
+//    BOOL isNologin = ([QTUserInfo sharedQTUserInfo].passWD.length>0)&&([QTUserInfo sharedQTUserInfo].passWD);
+    if(!strNotNil([QTUserInfo sharedQTUserInfo].passWD)){
+        return;//未登录不加载头像
+    }
+    NSString *url = [NSString stringWithFormat:@"api/personal?userid=%@",[QTUserInfo sharedQTUserInfo].userId];
+    [QTFHttpTool requestGETURL:url params:nil refreshCach:YES needHud:YES hudView:self.view loadingHudText:nil errorHudText:nil sucess:^(id json) {
+        NSDictionary *dic = (NSDictionary*)json;
+        BOOL success = (BOOL)[dic[@"Success"] boolValue];
+        if (!success) return ;
+        NSDictionary *dictUser = dic[@"Urerreg"];
+        NSString *Msg = dictUser[@"Userlogo"];
+        [self.userHeaderImage sd_setImageWithURL:[NSURL URLWithString:Msg] placeholderImage:[UIImage imageNamed:@"me_headerimage"]];
+    } failur:^(NSError *error) {
+    }];
 }
 
 
