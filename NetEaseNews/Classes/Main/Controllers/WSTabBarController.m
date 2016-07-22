@@ -127,7 +127,7 @@
     NSMutableArray *newArrThree = [NSMutableArray array];
     NSMutableArray *newArrFour = [NSMutableArray array];
     
-    NSMutableArray *tabbarArr = [WSMenuInstance sharedWSMenuInstance].tabbarArr;
+    NSMutableArray *tabbarArr =[NSMutableArray arrayWithArray:[WSMenuInstance sharedWSMenuInstance].tabbarArr] ;
     NSMutableArray *allMenuArr = [WSMenuInstance sharedWSMenuInstance].allMenuArr;
     
     
@@ -170,12 +170,57 @@
         [newArrone insertObject:home atIndex:0];
     }
     
-    //获取导航数组one
-    [WSMenuInstance sharedWSMenuInstance].menuOneArr = newArrone;
-    [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrTwo;
-    [WSMenuInstance sharedWSMenuInstance].menuThreeArr = newArrThree;
-    [WSMenuInstance sharedWSMenuInstance].menuFourArr = newArrFour;
-    
+    //获取导航数组防止有一级分类二级分类没有 做容错处理
+    switch (tabbarArr.count) {
+        case 1://导航一个 只添加一个数组
+        {
+            [WSMenuInstance sharedWSMenuInstance].menuOneArr = newArrone;
+
+        }
+            break;
+        case 2://导航两个考虑 没有二级分类的情况
+        {
+            [WSMenuInstance sharedWSMenuInstance].menuOneArr = newArrone;
+            if(newArrTwo.count == 0){
+                [tabbarArr removeObjectAtIndex:1];
+            }else {
+                [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrTwo;
+            }
+
+            
+        }
+            break;
+        case 3://导航三个 考虑 二级下只有一个 有两个 有三个的情况
+        {
+            
+            [WSMenuInstance sharedWSMenuInstance].menuOneArr = newArrone;
+            if(newArrTwo.count == 0&&newArrThree.count>0){
+                //加第一个
+                [tabbarArr removeObjectAtIndex:1];
+                [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrThree;
+            }else if(newArrTwo.count > 0&&newArrThree.count == 0){//加第二个
+                [tabbarArr removeObjectAtIndex:2];
+                [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrTwo;
+            }else if(newArrTwo.count == 0&&newArrThree.count == 0){
+                //两个都没有 不添加
+                [tabbarArr removeObjectAtIndex:1];
+                [tabbarArr removeObjectAtIndex:1];
+            }else {//两个都有
+                [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrTwo;
+                [WSMenuInstance sharedWSMenuInstance].menuThreeArr = newArrThree;
+            }
+            
+        }
+            break;
+        default:{
+            [WSMenuInstance sharedWSMenuInstance].menuOneArr = newArrone;
+        }
+            break;
+    }
+    //处理后重新赋值
+    [WSMenuInstance sharedWSMenuInstance].tabbarArr = tabbarArr;
+
+
 }
 
 
@@ -188,11 +233,7 @@
     _adBottomImg1 = adBottomImg1;
     [self.view addSubview:adBottomImg1];
     if ([SXAdManager isShouldDisplayAd]) {
-        
-        // ------这里主要是容错一个bug。
-//        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"top20"];
-//        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"rightItem"];
-
+ 
 
         UIImageView *adImg = [[UIImageView alloc]initWithImage:[SXAdManager getAdImage]];
         //添加网易新闻有态度的门户的图片
@@ -230,22 +271,6 @@
         [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"update"];
     }
 }
-
-
-
-
-//- (void)addGesture:(UIView*)image{
-//    // 创建一个手势识别器
-//    image.userInteractionEnabled = YES;
-//    UITapGestureRecognizer *oneFingerTwoTaps =
-//    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(oneFingerTwoTaps)];
-//    oneFingerTwoTaps.numberOfTapsRequired = 1;
-//    oneFingerTwoTaps.numberOfTouchesRequired = 1;
-////    [oneFingerTwoTaps setNumberOfTapsRequired:2];
-////    [oneFingerTwoTaps setNumberOfTouchesRequired:1];
-//    [image addGestureRecognizer:oneFingerTwoTaps];
-//}
-
 
 
 - (void)oneFingerTwoTaps:(UIButton*)btn{
