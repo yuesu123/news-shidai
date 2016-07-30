@@ -158,6 +158,7 @@ NSString * dayNewsID = @"T1429173683626";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    
     return [WSDayNewsCell rowHeightWithIndexPath:indexPath];
 }
 

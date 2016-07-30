@@ -141,11 +141,11 @@
     if ([model isKindOfClass:[ZtNewsMode class]]) {
         partUrl = @"newsid";
     }else{
-        partUrl = @"ztnewsid";
+        partUrl = @"newsid";
     }
     
     
-    NSString *url = [NSString stringWithFormat:@"api/newsshoucangdel?userid=%ld&%@=%ld",(long)model.Userid,partUrl,(long)model.Id];
+    NSString *url = [NSString stringWithFormat:@"api/newsshoucangdel?userid=%ld&%@=%ld",(long)model.Userid,partUrl,(long)model.Newsid];
     [QTFHttpTool requestGETURL:url params:nil refreshCach:YES needHud:YES hudView:self.view loadingHudText:nil errorHudText:nil sucess:^(id json) {
         NSDictionary *dic = (NSDictionary*)json;
         BOOL success = (BOOL)[dic[@"Success"] boolValue];

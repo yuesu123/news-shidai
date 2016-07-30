@@ -11,6 +11,7 @@
 
 typedef void(^SelectedItemBlock)(id obj);
 @interface WSRollController : UICollectionViewController
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintHeight;
 
 @property (strong, nonatomic) NSArray *ads;
 

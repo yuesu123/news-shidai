@@ -8,7 +8,7 @@
 
 #import "QTUMShareTool.h"
 #import "UMSocial.h"
-#define shareTitleHasCode [NSString  stringWithFormat:@"%@%@",@"【北仑新区时刊】",@""]
+#define shareTitleHasCode [NSString  stringWithFormat:@"%@%@",@"【北仑新闻】",@""]
 #define shareBtnOrder        [NSArray arrayWithObjects:UMShareToWechatTimeline,UMShareToWechatSession,UMShareToQzone,UMShareToQQ,UMShareToSina,UMShareToSms,nil]
 #define shareurlStr  @"http://a.app.qq.com/o/simple.jsp?pkgname=com.qitian.massage"
 

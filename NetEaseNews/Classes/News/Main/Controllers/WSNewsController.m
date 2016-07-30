@@ -39,13 +39,14 @@
 @property (strong, nonatomic) NSMutableArray *jsonNews;
 @property (strong, nonatomic) NSMutableArray *NewsadArr;
 
+@property (weak, nonatomic) IBOutlet UIView *ROLLVIEW;
 
 //@property (assign, nonatomic) NSInteger index;
 
 @property (weak, nonatomic) WSRollController *rollVC;
 @property (nonatomic, strong) NSDictionary *activeNotiInfo;
 @property (nonatomic, assign) BOOL isShowAlert;
-
+@property (nonatomic,strong) UIView *headerView;
 @end
 
 @implementation WSNewsController
@@ -67,6 +68,23 @@
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(notificationInactiveDic:) name:kNotificationInactiveDic object:nil];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(notificationActiveDic:) name:kNotificationActiveDic object:nil];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(notificationAddTap:) name:kNotificationAddTap object:nil];
+    
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,  Main_Screen_Width, 1)];
+    _headerView = headerView;
+//     add
+//    [headerView addSubview:vc.view];
+//]
+    //    _vc = childVc;
+    
+//    [self addChildViewController:vc];
+    
+//    self.tableView.tableHeaderView = headerView;
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        self.tableView.tableHeaderView = headerView;
+//        [self.tableView reloadData];
+//    });
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -231,12 +249,27 @@
             
             [WSAdModel  inserAdArr:_NewsadArr toArr:weakSelf.jsonNews  path:3];
                //轮播赋值
-            if(_currentPage == 1){
+            if((_currentPage == 1)&&(allModel.Newsclass.Ispic == 1)){
                 [self addRoll:allModel.Blocknews];
+            }else if(_currentPage == 1&&allModel.Newsclass.Ispic == 0){
+                self.tableView.tableHeaderView = _headerView;
+//                self.rollVC.constraintHeight = 0;//no effect
+//            self.ROLLVIEW.hidden = YES;//no
+//            self.ROLLVIEW.height = 0;
+//            [self.rollVC removeFromParentViewController];
+//            self.rollVC.view.superview.hidden = YES;
+//            [self.rollVC removeFromParentViewController];
             }
+            
+            [self.view layoutIfNeeded];
+            [self.ROLLVIEW removeFromSuperview];
             [weakSelf.tableView reloadData];
             [self refreshCurentPg:_currentPage Total:allModel.Total pgSize:allModel.Pagesize];
-            self.rollVC.view.hidden = NO;
+//            if () {
+//                self.rollVC.view.hidden = YES;
+//            }else{
+//                self.rollVC.view.hidden = YES;
+//            }
            
         }else if((weakSelf.jsonNews.count==0)&&(allModel.Newsad.count==0)){
             [self addNotingViewTop:weakSelf.jsonNews.count view:self.view title:@"暂无新闻" font:[UIFont systemFontOfSize:15] color:[UIColor darkGrayColor]];
@@ -249,7 +282,15 @@
         [self endRefresh];
     }];
 }
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 20;
+//}
 
+- (void)preferredContentSizeDidChangeForChildContentContainer:(id<UIContentContainer>)container{
+    
+}
+// -(void)preferredContentSizeDidChangeForChildContentContainer:
 
 - (NSString *)newsURL{
     return [NSString stringWithFormat:@"api/newslist?classid=%@&pg=%ld&pagesize=20",self.channelID,(long)_currentPage] ;

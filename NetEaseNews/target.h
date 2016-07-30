@@ -59,10 +59,11 @@
  11 专题列表待修改? 暂时不管
  12 增加置顶  ok
  13 我的收藏过滤 ok
- 1. http://xapp.blnews.com.cn/api/newslist?classid=3   "Newsclass" 中的 ispic为0时不显示轮播图
- 2. http://xapp.blnews.com.cn/api/newslist   Showtype为1时显示通栏单图(仅有图) ,3时也显示通栏单图(标题+时间)
- 4. 苹果的手机打开启动图前面还有一张图，不修改
- 评论和收藏，删除收藏功能等，在对象是专题新闻时，我们之前传的参数名称是ztnewid  这个是要改吧
+ 14. http://xapp.blnews.com.cn/api/newslist?classid=3   "Newsclass" 中的 ispic为0时不显示轮播图 ok
+ 15. http://xapp.blnews.com.cn/api/newslist   Showtype为1时显示通栏单图(仅有图) ,3时也显示通栏单图(标题+时间) ok
+ 16. 苹果的手机打开启动图前面还有一张图，不修改 ok
+ 评论和收藏，删除收藏功能等，在对象是专题新闻时，我们之前传的参数名称是ztnewid  这个是要改吧???
+ 17.
  
  ----------------
  改名(部分需上appstore再改):
