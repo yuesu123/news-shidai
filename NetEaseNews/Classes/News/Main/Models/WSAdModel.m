@@ -43,7 +43,7 @@ static NSString *kremoveTag = @"yu&&**^^";
     news.Picsmall = adModel.Adfile;
     news.Newslink = adModel.Adlink;
     news.Edittime = adModel.Addtime;
-    news.Showtype = 1;
+    news.Showtype = 4;
     news.tag = kremoveTag;
     news.isAdd = YES;
     return news;

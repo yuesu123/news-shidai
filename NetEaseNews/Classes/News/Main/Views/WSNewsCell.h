@@ -14,7 +14,8 @@ typedef enum {
     
     WSNewsCellTypeNormal, //正常显示
     WSNewsCellTypeBigImage,  //大图展示
-    WSNewsCellTypeThreeImage //三张图片展示
+    WSNewsCellTypeThreeImage, //三张图片展示
+    WSNewsCellTypeBigImageAdd,  //大图展示广告
     
 }WSNewsCellType;
 

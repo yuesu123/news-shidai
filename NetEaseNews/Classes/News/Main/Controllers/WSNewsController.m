@@ -378,6 +378,7 @@
 //    }else if(indexPath.row == 5){
 //        news.Showtype = 1;
 //    }
+//    news.Showtype = 1;
     WSNewsCell *cell = [WSNewsCell newsCellWithTableView:tableView cellNews:news IndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -395,6 +396,8 @@
         type = WSNewsCellTypeThreeImage;
     }else if (content.Showtype == 1){ //大图
         type = WSNewsCellTypeBigImage;
+    }else if(content.Showtype == 4){
+        type = WSNewsCellTypeBigImageAdd;//广告
     }else{
         type = WSNewsCellTypeNormal;//单图
     }

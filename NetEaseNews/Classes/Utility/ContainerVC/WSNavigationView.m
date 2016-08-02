@@ -41,9 +41,16 @@
 
     //更改字体大小
     [UIView animateWithDuration:0.5 animations:^{
+        for (UIButton *btn  in _btns) {
+            [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+
+        }
         
-        sender.titleLabel.font = [UIFont systemFontOfSize:17];
-        self.selectedItem.titleLabel.font = [UIFont systemFontOfSize:13];
+//        sender.titleLabel.font = [UIFont systemFontOfSize:17];
+//        self.selectedItem.titleLabel.font = [UIFont systemFontOfSize:13];
+        
+        [sender setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+
     }];
     
     //判断位置
@@ -130,7 +137,7 @@
         
         UIButton *item = [[UIButton alloc] init];
         [item setTitle:items[i] forState:UIControlStateNormal];
-        [item setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [item setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         item.titleLabel.font = [UIFont systemFontOfSize:13];
         item.titleLabel.textAlignment = NSTextAlignmentCenter;
         [item addTarget:self action:@selector(itemClick:) forControlEvents:UIControlEventTouchUpInside];

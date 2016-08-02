@@ -30,6 +30,8 @@
 static NSString * normalID = @"normalCell";
 static NSString * bigImageID = @"bigImageCell";
 static NSString * threeImageID = @"threeImageCell";
+static NSString * fourImageID = @"fourImageCell";
+
 
 @implementation WSNewsCell
 
@@ -40,12 +42,14 @@ static NSString * threeImageID = @"threeImageCell";
             return 100;
             break;
         case WSNewsCellTypeBigImage:
-            return 100;
+            return 130;
             break;
         case WSNewsCellTypeThreeImage:
             return 120;
             break;
-            
+        case WSNewsCellTypeBigImageAdd:
+            return 100;
+            break;
         default:
             break;
     }
@@ -59,11 +63,15 @@ static NSString * threeImageID = @"threeImageCell";
        cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",threeImageID] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeThreeImage;
     
-    }else if (news.Showtype == 1){ //一个图
+    }else if (news.Showtype == 1){ //一个图//大图 广告
     
-        cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",bigImageID] forIndexPath:indexPath];
+        cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",fourImageID/*上面lable 下大图*/] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeBigImage;
-   }else{ //左图又文字
+    }else if (news.Showtype == 4){ //一个图
+        
+        cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",bigImageID/*广告类型id*/] forIndexPath:indexPath];
+        cell.cellType = WSNewsCellTypeBigImageAdd;
+    }else{ //左图又文字
       cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",normalID] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeNormal;
     }
