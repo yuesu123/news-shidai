@@ -209,7 +209,6 @@
                 [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrTwo;
                 [WSMenuInstance sharedWSMenuInstance].menuThreeArr = newArrThree;
             }
-            
         }
             break;
         default:{

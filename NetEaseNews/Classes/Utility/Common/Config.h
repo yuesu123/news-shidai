@@ -75,7 +75,7 @@
 #define  MD5_Check_Code  @""//
 //#define redCommon RGBACOLOR(248, 78, 90, 0.85)
 //#define redCommon RGBACOLOR(248, 78, 90, 0.85)
-#define redCommon  [UIColor colorWithPatternImage:[UIImage imageNamed:@"redDotColor"]]
+#define redCommon  [UIColor colorWithPatternImage:[UIImage imageNamed:@"navigationBar"]]
 #define bgcolor [UIColor colorWithRed:239.0/255 green:239.0/255 blue:260.0/255 alpha:1]
 //RGBACOLOR(252.0, 103.0, 109.0, 1.0)//后来给的;
 #define lightTabCommon [UIColor colorWithRed:239.0/255 green:239.0/255 blue:260.0/255 alpha:1]

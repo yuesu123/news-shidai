@@ -14,6 +14,7 @@
 @interface WSNavigationView ()
 
 @property (strong, nonatomic) NSMutableArray *btns;
+@property (strong, nonatomic) NSMutableArray *views;
 
 @property (weak, nonatomic) UIButton *selectedItem;
 
@@ -48,8 +49,15 @@
         
 //        sender.titleLabel.font = [UIFont systemFontOfSize:17];
 //        self.selectedItem.titleLabel.font = [UIFont systemFontOfSize:13];
-        
         [sender setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        
+        for(UIView *view in _views){
+            if(view.tag == sender.tag){
+                view.backgroundColor = RGBCOLOR(220, 46, 45);
+            }else{
+                view.backgroundColor = whiteColorMe;
+            }
+        }
 
     }];
     
@@ -101,7 +109,7 @@
     WSNavigationView *nav = [[WSNavigationView alloc] init];
     
     nav.btns = [NSMutableArray arrayWithCapacity:items.count];
-    
+    nav.views = [NSMutableArray arrayWithCapacity:items.count];
     nav.itemClickBlock = itemClick;
     
     nav.items = items;
@@ -122,8 +130,14 @@
         
         UIButton *item = self.btns[i];
         CGFloat itemX = kMargin + itemW * i;
-        item.frame = CGRectMake(itemX, 0, itemW, kViewH);
+        item.frame = CGRectMake(itemX, 0, itemW, kViewH-2);
+        
+        UIView *view = self.views[i];
+//        CGFloat viewX = itemX;
+        view.frame = CGRectMake(itemX, kViewH-2, itemW, 2);
+        
     }
+    
     
     self.contentSize = CGSizeMake(itemW * self.btns.count + kMargin * 2, kViewH);
 }
@@ -138,12 +152,18 @@
         UIButton *item = [[UIButton alloc] init];
         [item setTitle:items[i] forState:UIControlStateNormal];
         [item setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        item.titleLabel.font = [UIFont systemFontOfSize:13];
+        item.titleLabel.font = [UIFont systemFontOfSize:16];
         item.titleLabel.textAlignment = NSTextAlignmentCenter;
         [item addTarget:self action:@selector(itemClick:) forControlEvents:UIControlEventTouchUpInside];
+        UIView *view = [[UIView alloc] init];
+//        view.backgroundColor = [UIColor redColor];
+        view.tag = i ;
         [self.btns addObject:item];
-        [self addSubview:item];
         item.tag = i;
+        [self.views addObject:view];
+        [self addSubview:item];
+        [self addSubview:view];
+
         
     }
 }
