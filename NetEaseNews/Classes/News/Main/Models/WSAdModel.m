@@ -32,7 +32,7 @@ static NSString *kremoveTag = @"yu&&**^^";
 }
 
 + (NSInteger)getIndex:(NSInteger)i {
-    return (i+1)*3+i;
+    return (i+1)*4+i;
 }
 
 + (Newslist*)convertAdtoNewlist:(WSAdModel*)adModel{

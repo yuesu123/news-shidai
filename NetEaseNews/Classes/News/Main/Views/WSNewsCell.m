@@ -59,7 +59,7 @@ static NSString * fourImageID = @"fourImageCell";
     
     WSNewsCell *cell = nil;
     
-   if (/*news.Type.count == 2*/news.Showtype == 2){//图片数组的个数
+   if (/*news.Type.count == 2*/news.Showtype == 2){//图片数组的个数 三图
        cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",threeImageID] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeThreeImage;
     
@@ -71,7 +71,7 @@ static NSString * fourImageID = @"fourImageCell";
         
         cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",bigImageID/*广告类型id*/] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeBigImageAdd;
-    }else{ //左图又文字
+    }else if(news.Showtype == 0){ //左图又文字
       cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",normalID] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeNormal;
     }
