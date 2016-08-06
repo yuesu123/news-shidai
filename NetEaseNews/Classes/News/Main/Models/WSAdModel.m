@@ -34,7 +34,7 @@ static NSString *kremoveTag = @"yu&&**^^";
 + (NSInteger)getIndex:(NSInteger)i {
     return (i+1)*4+i;
 }
-
+//   "Showtype": ,  — 0为左图右标题样式 1 为直栏模式(通栏单图仅一张图片无文字) 2为三图模式 3 为通栏(单图+标题+时间)  这个定义确保无误
 + (Newslist*)convertAdtoNewlist:(WSAdModel*)adModel{
     Newslist *news = [[Newslist alloc] init];
     news.Id = adModel.Id;
@@ -43,7 +43,7 @@ static NSString *kremoveTag = @"yu&&**^^";
     news.Picsmall = adModel.Adfile;
     news.Newslink = adModel.Adlink;
     news.Edittime = adModel.Addtime;
-    news.Showtype = 4;
+    news.Showtype = 1;
     news.tag = kremoveTag;
     news.isAdd = YES;
     return news;

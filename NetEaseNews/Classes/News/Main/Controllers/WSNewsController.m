@@ -249,9 +249,10 @@
             
             [WSAdModel  inserAdArr:_NewsadArr toArr:weakSelf.jsonNews  path:3];
                //轮播赋值
-            if((_currentPage == 1)&&(allModel.Newsclass.Ispic == 1)){
+            BOOL showRoll = (_currentPage == 1)&&(allModel.Newsclass.Ispic == 1);
+            if(showRoll||[self.channelID isEqualToString:@"0"]){
                 [self addRoll:allModel.Blocknews];
-            }else if(_currentPage == 1&&allModel.Newsclass.Ispic == 0){
+            }else  if(_currentPage == 1&&allModel.Newsclass.Ispic == 0){
                 self.tableView.tableHeaderView = _headerView;
 //                self.rollVC.constraintHeight = 0;//no effect
 //            self.ROLLVIEW.hidden = YES;//no
@@ -372,13 +373,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     Newslist *news = self.jsonNews[indexPath.row];
-//    news.Showtype = 1;
-//    if(indexPath.row == 1){
-//        news.Showtype = 2;
-//    }else if(indexPath.row == 5){
-//        news.Showtype = 1;
-//    }
-//    news.Showtype = 1;
     WSNewsCell *cell = [WSNewsCell newsCellWithTableView:tableView cellNews:news IndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -390,15 +384,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     Newslist *content = self.jsonNews[indexPath.row];
-    
+    //   "Showtype": ,  — 0为左图右标题样式 1 为直栏模式(通栏单图仅一张图片无文字) 2为三图模式 3 为通栏(单图+标题+时间)  这个定义确保无误
     WSNewsCellType type = 0;
     if (content.Showtype == 2) {//三图
         type = WSNewsCellTypeThreeImage;
-    }else if (content.Showtype == 1){ //大图
+    }else if (content.Showtype == 3){ //大图
         type = WSNewsCellTypeBigImage;
-    }else if(content.Showtype == 4){
+    }else if(content.Showtype == 1){
         type = WSNewsCellTypeBigImageAdd;//广告
-    }else{
+    }else {
         type = WSNewsCellTypeNormal;//单图
     }
 //      -- 0为左图右标题样式 1 为直栏模式 2为三图模式

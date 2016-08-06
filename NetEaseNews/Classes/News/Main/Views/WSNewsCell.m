@@ -58,16 +58,16 @@ static NSString * fourImageID = @"fourImageCell";
 + (instancetype)newsCellWithTableView:(UITableView *)tableview cellNews:(Newslist *)news IndexPath:(NSIndexPath *)indexPath{
     
     WSNewsCell *cell = nil;
-    
-   if (/*news.Type.count == 2*/news.Showtype == 2){//图片数组的个数 三图
+//   "Showtype": ,  — 0为左图右标题样式 1 为直栏模式(通栏单图仅一张图片无文字) 2为三图模式 3 为通栏(单图+标题+时间)  这个定义确保无误
+
+   if (news.Showtype == 2){//图片数组的个数 三图
        cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",threeImageID] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeThreeImage;
-    
-    }else if (news.Showtype == 1){ //一个图//大图 广告
+    }else if (news.Showtype == 3){ //3 为通栏(单图+标题+时间)
     
         cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",fourImageID/*上面lable 下大图*/] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeBigImage;
-    }else if (news.Showtype == 4){ //一个图
+    }else if (news.Showtype == 1){ //1 为直栏模式(通栏单图仅一张图片无文字)
         
         cell = [tableview dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@",bigImageID/*广告类型id*/] forIndexPath:indexPath];
         cell.cellType = WSNewsCellTypeBigImageAdd;
@@ -100,6 +100,9 @@ static NSString * fourImageID = @"fourImageCell";
             break;
         case 0: //左图右文字 
             placeStr = @"zhuanti_lIst";
+            break;
+        case 3: //大直图+标题+时间
+            placeStr = @"home_zhilan";
             break;
     }
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:news.Picsmall] placeholderImage:[UIImage imageNamed:placeStr]];
