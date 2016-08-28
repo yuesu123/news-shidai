@@ -31,6 +31,7 @@
 @property (nonatomic, assign) NSInteger ZtNewsid;
 @property (copy, nonatomic) NSString *Newslink;
 @property (copy, nonatomic) NSString *Title;
+@property (copy, nonatomic) NSString *infoid;
 
 
 

@@ -39,7 +39,7 @@ static NSString * fourImageID = @"fourImageCell";
     
     switch (type) {
         case WSNewsCellTypeNormal:
-            return 100;
+            return 85;
             break;
         case WSNewsCellTypeBigImage:
             return 120;

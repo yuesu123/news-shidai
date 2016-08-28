@@ -39,7 +39,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    ECLog(@"父类名字:%@",[self class]);
+    ECLog(@"父类名字:%@",[self class]);
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -234,13 +234,14 @@
     __unsafe_unretained __typeof(self) weakSelf = self;
         self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadLastData)];
     // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
+ 
+    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadLastData方法）
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         _currentPage = 1;
         [weakSelf.tableView.mj_footer resetNoMoreData];
         weakSelf.tableView.mj_footer.hidden = YES;
         [weakSelf loadDataWithCache:NO];
     }];
-    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadLastData方法）
 
     // 马上进入刷新状态
     [self.tableView.mj_header beginRefreshing];
