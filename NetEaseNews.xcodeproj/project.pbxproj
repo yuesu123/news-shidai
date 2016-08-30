@@ -3333,7 +3333,7 @@
 				TargetAttributes = {
 					651D63741C45069D00DAF34E = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = E4UA8527JX;
+						DevelopmentTeam = 97V6YV4K4J;
 					};
 				};
 			};
@@ -3947,7 +3947,7 @@
 					"$(PROJECT_DIR)/NetEaseNews/Classes/External/UmSDk5.2.1/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.flagsky.inhouse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kfdb.yuesu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3989,7 +3989,7 @@
 					"$(PROJECT_DIR)/NetEaseNews/Classes/External/UmSDk5.2.1/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.flagsky.inhouse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kfdb.yuesu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
