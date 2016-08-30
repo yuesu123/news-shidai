@@ -51,10 +51,10 @@
     NSString *docid = nil;
     if ([_newsItem isKindOfClass:[Newslist class]]) {
         Newslist *news = (Newslist*)_newsItem;
-        docid = [NSString convertIntgerToString:news.Infoid];
+        docid = [NSString convertIntgerToString:news.Id];
     }else{
         ZtNewslist *news = (ZtNewslist*)_newsItem;
-        docid = [NSString convertIntgerToString:news.Infoid];
+        docid = [NSString convertIntgerToString:news.Ztid];
     }
     if (_praiseBtn.selected) {
         [MBProgressHUD showError:@"已经点赞"];

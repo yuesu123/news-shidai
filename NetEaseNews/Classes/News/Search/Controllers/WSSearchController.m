@@ -98,6 +98,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     WSSearchResult *result = self.result[indexPath.row];
+    
     [self gotoNotiControllercreatItem:result];
 }
 
@@ -160,7 +161,10 @@
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBarHidden = YES;
-    [self.searchBar becomeFirstResponder];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self.searchBar becomeFirstResponder];
+    });
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
