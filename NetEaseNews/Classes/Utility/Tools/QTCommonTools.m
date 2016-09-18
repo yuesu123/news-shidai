@@ -30,11 +30,12 @@ singleton_implementation(QTCommonTools)
     fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     //    fmt.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
     
-    fmt.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    fmt.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
     
     // 将字符串(NSString)转成时间对象(NSDate), 方便进行日期处理
     NSDate *createdTime = [fmt dateFromString:time];
     //时间
+    ECLog(@"时间:%@",createdTime);
     NSTimeInterval timeStamp= [createdTime timeIntervalSince1970];
     timeStamp = timeStamp*1000;
     NSString *newTime ;
@@ -43,6 +44,7 @@ singleton_implementation(QTCommonTools)
 //    }else{
 //        newTime =  [NSDate formattedTimeFromTimeInterval:timeStamp];;
 //    }
+    
     newTime = [Globals sendTimeStringZhurenwong:timeStamp ];
     return newTime;
 }

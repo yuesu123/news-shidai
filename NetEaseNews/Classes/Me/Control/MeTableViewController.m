@@ -222,7 +222,7 @@
     if (section == 1) {
         return 1;
     }else{
-        return 7;
+        return 6;
     }
 }
 //
@@ -251,13 +251,8 @@
         [self showToLogin:@"请先登录吧!"];
         NSString *passW =[QTUserInfo sharedQTUserInfo].passWD;
         if (!strNotNil(passW)) return;
-        [self gotoMyJifenController];
-    }else if(indexPath.row == 5&&0 == indexPath.section){
-        [self showToLogin:@"请先登录吧!"];
-        NSString *passW =[QTUserInfo sharedQTUserInfo].passWD;
-        if (!strNotNil(passW)) return;
         [self gotoVcUrl:sg_privateAboutMyUserInfo title:@"我的信息"];
-    }else if(indexPath.row == 6&&0 == indexPath.section){
+    }else if(indexPath.row == 5&&0 == indexPath.section){
         [self showToLogin:@"请先登录吧!"];
         NSString *passW =[QTUserInfo sharedQTUserInfo].passWD;
         if (!strNotNil(passW)) return;

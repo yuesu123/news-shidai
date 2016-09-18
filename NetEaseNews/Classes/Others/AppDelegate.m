@@ -239,8 +239,8 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     // 将在新浪微博注册的应用appkey、redirectURL替换下面参数，并在info.plist的URL Scheme中相应添加wb+appkey，如"wb3921700954"，详情请参考官方文档。
 //    4082440725  27bc1719c12f359515d033b09fb7f922 公司的
     
-    [UMSocialSinaSSOHandler /*4082440725*/openNewSinaSSOWithAppKey:@"464496571"
-                                 /*27bc1719c12f359515d033b09fb7f922*/             secret:@"01cf6a54aa248134adb0c4a5e05fa6ea"
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"464496571"
+                                             secret:@"01cf6a54aa248134adb0c4a5e05fa6ea"
                                         RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
     
     
