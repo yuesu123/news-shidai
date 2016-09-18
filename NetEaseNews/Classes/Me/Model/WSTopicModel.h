@@ -36,6 +36,9 @@
 @property (nonatomic, copy) NSString *Ztpinyin;
 
 @property (nonatomic, copy) NSString *Ztdes;
+
+@property (nonatomic, copy) NSString *Referurl;
+
 + (void)topicWithIndex:(NSInteger)currentPage isCache:(BOOL)cache getDataSuccess:(GetDataSuccessBlock)success getDataFaileure:(GetDataFailureBlock)failure;
 + (NSArray *)cacheTopic;
 

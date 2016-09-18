@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "WSTopDetailController.h"
 #import "WSTopicNewsListViewController.h"
+#import "ServiceExampleViewController.h"
 
 @interface WSTopicController ()
 @property (strong, nonatomic) NSMutableArray *topics;
@@ -32,8 +33,8 @@
 //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    　　tableView.separatorStyle = NO;
-
     self.leftBarButton.hidden = YES;
+    self.tableView.tableFooterView = [UIView new];
 //    self.topicIndex = 0;
     
 //    [self loadDataWithCache:YES];
@@ -52,6 +53,12 @@
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.edgesForExtendedLayout =  UIRectEdgeNone;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
 }
 
 //view布局完子控件的时候调用
@@ -110,9 +117,20 @@
 //    //hideBottomBar
 //
 //    [self.navigationController pushViewController:td animated:YES];
-    [self gotoWSTopicNewsListViewController:zt];
+    NSString * Referurl = zt.Referurl;
+    if (strNotNil(Referurl)) {
+        [self gotoAddViewController:Referurl];
+    }else{
+        [self gotoWSTopicNewsListViewController:zt];
+    }
 }
-
+- (void)gotoAddViewController:(NSString*)url{
+    ServiceExampleViewController *vc = [[ServiceExampleViewController alloc] init];
+    vc.titleStr = @"专题详情";
+    vc.urlStr = url;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 - (void)gotoWSTopicNewsListViewController:(Ztlist*)zt{
     WSTopicNewsListViewController *vc = [[WSTopicNewsListViewController alloc] init];

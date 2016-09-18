@@ -39,7 +39,13 @@
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, Main_Screen_Height - 64)];
     //    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://8235.wx.cdn.aodianyun.com/layout/party/4532"]];
     
-    NSString *allUrl =[NSString stringWithFormat:@"%@%@",sg_privateNetworkBaseUrl,_urlStr];
+    NSString *allUrl = nil;
+    
+    if ([_urlStr hasPrefix:@"http"]) {
+       allUrl = _urlStr;
+    }else{
+       allUrl =  [NSString stringWithFormat:@"%@%@",sg_privateNetworkBaseUrl,_urlStr];
+    }
     ECLog(@"控制器地址,无前缀的是广告%@, 短%@",allUrl,_urlStr);
     allUrl =  (_type == TypeKindAdd)?_urlStr:allUrl;
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:allUrl]];
