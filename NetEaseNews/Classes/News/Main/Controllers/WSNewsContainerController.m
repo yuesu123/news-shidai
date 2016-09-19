@@ -69,7 +69,7 @@
 
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 25)];
         [button setImage:[UIImage imageNamed:@"nav_home_logo"] forState:UIControlStateNormal];
-        [button setImageEdgeInsets:UIEdgeInsetsMake(0, -15, 0, 0)];
+        [button setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
         UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:button];
         self.navigationItem.leftBarButtonItem = leftItem;
         
@@ -78,6 +78,8 @@
         [buttonright addTarget:self action:@selector(rightItemClick) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:buttonright];
         self.navigationItem.rightBarButtonItem = rightItem;
+        
+        
     }
    
     

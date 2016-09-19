@@ -271,7 +271,7 @@
 
 
 #pragma mark 设置时间格式字符串
-+ (NSString*)sendTimeStringZhurenwong:(double)sendTime {
++ (NSString*)sendTimeStringZhurenwong:(double)sendTime oldTime:(NSString*)oldTime {
     NSString * _timestamp;
     NSTimeInterval timestamp = sendTime/ 1000;
     time_t now;
@@ -293,11 +293,13 @@
 
         distance = distance / (60*60);
         _timestamp = [NSString stringWithFormat:@"%d%@", 1, @"小时前"];
-    }else if (distance < 60 * 60 * 24 * 30*6) {
+    }else if (distance < 60 * 60 * 24 * 30*12) {
         NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"M月d日 hh:mm"];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
         _timestamp = [dateFormatter stringFromDate:date];
+        _timestamp = [self convertAdd12:_timestamp sendTime:oldTime];
+        
     } else {
         NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-M-d hh:mm"];
@@ -308,6 +310,29 @@
     return _timestamp;
 }
 
++ (NSString*)convertAdd12:(NSString*)timestamp sendTime:(NSString*)sendTime{
+    if([self isTwelveTimeType]){//是12小时值
+        NSString *hour = [sendTime substringWithRange:NSMakeRange(11, 2)];
+        ECLog(@"%@",hour);
+        if([hour intValue]>12){//发现有大于12的
+            NSString *Prehour = [timestamp substringWithRange:NSMakeRange(0, 5)];
+            NSString *subhour = [timestamp substringWithRange:NSMakeRange(7, 3)];
+            NSString *newTime = [NSString stringWithFormat:@"%@%@%@",Prehour,hour,subhour];
+            timestamp = newTime;
+        }
+        return timestamp;
+    }else{
+        return timestamp;
+   }
+}
+
++ (BOOL)isTwelveTimeType{
+    NSString *formatStringForHours = [NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]];
+    NSRange containsA = [formatStringForHours rangeOfString:@"a"];
+    BOOL hasAMPM = containsA.location != NSNotFound;
+     //hasAMPM==TURE为12小时制，否则为24小时制
+    return hasAMPM;
+}
 
 + (NSString*)sendTimeStringZhurenwongHaveYear:(double)sendTime {
     NSString * _timestamp;

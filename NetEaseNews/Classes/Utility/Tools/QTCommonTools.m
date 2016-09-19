@@ -45,9 +45,11 @@ singleton_implementation(QTCommonTools)
 //        newTime =  [NSDate formattedTimeFromTimeInterval:timeStamp];;
 //    }
     
-    newTime = [Globals sendTimeStringZhurenwong:timeStamp ];
+    newTime = [Globals sendTimeStringZhurenwong:timeStamp oldTime:time];
     return newTime;
 }
+
+
 
 
 
