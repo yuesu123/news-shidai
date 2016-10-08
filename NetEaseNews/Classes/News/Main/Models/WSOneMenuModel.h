@@ -31,5 +31,6 @@
 @property (nonatomic, copy) NSString *Referurl;
 
 @property (nonatomic, copy) NSString *Classdes;
+@property (nonatomic, assign) NSInteger Isad;
 
 @end

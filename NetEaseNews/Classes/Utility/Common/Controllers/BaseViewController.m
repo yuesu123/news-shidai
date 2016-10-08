@@ -42,11 +42,12 @@
     ECLog(@"父类名字:%@",[self class]);
 }
 
+
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-//    ECLog(@"父类名字:%@",[self class]);
-
+    ECLog(@"父类名字:%@",[self class]);
 }
+
 
 
 
@@ -214,7 +215,6 @@
         //        return;
         bigview.hidden = YES;
         self.view.userInteractionEnabled = YES;
-        
         //        view.hidden = YES;
     }else{
         bigview.hidden = NO;

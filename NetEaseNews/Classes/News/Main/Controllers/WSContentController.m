@@ -206,7 +206,7 @@
    self.title = @"新闻内容";
     
     self.webView.delegate = self;
-//    self.webView.scalesPageToFit= YES;
+    self.webView.scalesPageToFit= YES;
     
 //    [self.webView loadHTMLString:@"<html><body bgcolor=\"#F9F6FA\"></body></html>" baseURL:nil];
 //    NSString *newsLink = nil;
@@ -238,6 +238,7 @@
     }
     NSString *url = [NSString stringWithFormat:@"%@%@",sg_privateNetworkBaseUrl,partUrl];
     ECLog(@"加载的网址%@",url);
+    url = @"http://blnews.cnnb.com.cn/pic/0/11/25/25/11252527_274915.jpg";
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webView loadRequest:request];
     

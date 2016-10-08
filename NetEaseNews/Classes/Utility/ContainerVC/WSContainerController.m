@@ -8,7 +8,10 @@
 
 #import "WSContainerController.h"
 #import "WSNavigationView.h"
+#import "SXAdManager.h"
+#import "LargeClickBtn.h"
 
+#define keyWindow [UIApplication sharedApplication].keyWindow
 @interface WSContainerController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSArray *viewControllers;
@@ -20,6 +23,11 @@
 @property (weak, nonatomic) UICollectionViewFlowLayout *flowLayout;
 
 @property (weak, nonatomic) WSNavigationView *navigationView;
+
+@property (nonatomic ,strong) UIView *adView;
+@property (nonatomic, strong) UIImageView *adBottomImg1;
+@property (nonatomic, strong)  UIButton* skipBtn;
+@property (nonatomic, strong)  UIButton* btn;
 
 @end
 
@@ -78,35 +86,187 @@ static NSString *CellID = @"ControllerCell";
     self.automaticallyAdjustsScrollViewInsets = NO;
     //禁用滚动到最顶部的属性
     self.collectionView.scrollsToTop = NO;
- [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+   [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    
+- (void)addNavHomeBtn{
     CGFloat width = self.view.bounds.size.width;
     CGFloat height = self.view.bounds.size.height;
     CGFloat topNav = 64;
     CGFloat bottomTab = 49;
+    int addbtnW = 0;
+    ECLog(@"选中:%ld",self.tabBarController.selectedIndex);
+    if (0 == self.tabBarController.selectedIndex) {
+        addbtnW = Main_Screen_Width/(self.viewControllers.count+1);
+        
+        self.navigationView.isHome = YES;
+    }else{
+        self.navigationView.isHome = NO;
+        addbtnW = 0;
+    }
+    UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, topNav, addbtnW, 35)];
+    [addBtn addTarget:self action:@selector(addBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    addBtn.titleLabel.textColor = [UIColor blackColor];
+    [addBtn setTitle:@"首页" forState:UIControlStateNormal];
+    //    addBtn.backgroundColor = [UIColor redColor];
+    [addBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    addBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [self.view addSubview:addBtn];
+    
+    
     
     if (self.navigationController && self.tabBarController) {
         
-        self.navigationView.frame = CGRectMake(0, topNav, width, 44);
+        self.navigationView.frame = CGRectMake(addbtnW, topNav, width-addbtnW, 44);
         self.collectionView.frame = CGRectMake(0, topNav+self.navigationView.frame.size.height, width, height - self.navigationView.frame.size.height - bottomTab - topNav);
         
     }else{
+        ECLog(@"导航栏不存在");
+        //        self.navigationView.frame = CGRectMake(addbtnW, 0, width, 44);
+        self.navigationView.frame = CGRectMake(addbtnW, topNav, width-addbtnW, 44);
         
-        self.navigationView.frame = CGRectMake(0, 0, width, 44);
     }
+
+}
+- (void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    if (self.tabBarController.selectedIndex == 0) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });
+    }
+    if (self.tabBarController.selectedIndex == 1) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });    }
+    if (self.tabBarController.selectedIndex == 2) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });    }
+    if (self.tabBarController.selectedIndex == 3) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });    }
+    if (self.tabBarController.selectedIndex == 4) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });
+    }
+    
+    
     
     self.flowLayout.itemSize = self.collectionView.bounds.size;
     
 }
 
+
+- (void)addBtnClicked{
+    ECLog(@"首页广告点击");
+    [self adImage];
+}
+- (void)oneFingerTwoTaps:(UIButton*)btn{
+    
+    //    [btn removeFromSuperview];
+    [_btn removeFromSuperview];
+    [self addImageFinish:YES time:0.2];
+    
+    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+        [[NSNotificationCenter defaultCenter]postNotificationName:kNotificationAddTap object:nil];
+        ECLog(@"抛出点击通知");
+//    });
+}
+
+
+- (void)adImage{
+    [SXAdManager loadLatestAdImage];
+    UIView *adView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    adView.userInteractionEnabled = YES;
+    _adView = adView;
+    UIImageView *adBottomImg1 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"lauch_bottom"]];
+    adBottomImg1.frame = CGRectMake(0, self.view.height - 135, self.view.width, 135);
+    _adBottomImg1 = adBottomImg1;
+
+    [keyWindow addSubview:adBottomImg1];
+    
+    
+    
+    if ([SXAdManager isShouldDisplayAd]) {
+        
+        
+        UIImageView *adImg = [[UIImageView alloc]initWithImage:[SXAdManager getAdImage]];
+        //添加网易新闻有态度的门户的图片
+        UIImageView *adBottomImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"lauch_bottom"]];
+        adView.backgroundColor = [UIColor whiteColor];
+        [adView addSubview:adBottomImg];
+        [adView addSubview:adImg];
+        adImg.userInteractionEnabled = YES;
+        adBottomImg.frame = CGRectMake(0, self.view.height - 135, self.view.width, 135);
+        adImg.frame = CGRectMake(0, 0, self.view.width, self.view.height - 135);
+        //返回
+        UIButton *btn = [[UIButton alloc] initWithFrame:adImg.bounds];
+//        btn.backgroundColor = [UIColor redColor];
+//        [btn addTarget:self action:@selector(oneFingerTwoTaps:) forControlEvents:UIControlEventTouchUpInside];
+        _btn = btn;
+        
+        //点击广告
+//        [btn addTarget:self action:@selector(oneFingerTwoTaps:) forControlEvents:UIControlEventTouchUpInside];
+        adView.alpha = 0.99f;
+        [keyWindow addSubview:adView];
+        [keyWindow addSubview:btn];
+
+//        [keyWindow addSubview:btn];
+        
+        //添加跳过按钮
+        LargeClickBtn *skipBtn = [[LargeClickBtn alloc] initWithFrame:CGRectMake(Main_Screen_Width-90, 20, 50, 30)];
+        skipBtn.backgroundColor = [UIColor grayColor];
+        [skipBtn setTitle:@"返回" forState:UIControlStateNormal];
+        [skipBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [QTCommonTools clipAllView:skipBtn Radius:skipBtn.height*0.5 borderWidth:0 borderColor:nil];
+        _skipBtn = skipBtn;
+        [keyWindow addSubview:skipBtn];
+        [skipBtn addTarget:self action:@selector(skipBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        
+        [UIView animateWithDuration:2.8 animations:^{
+            adView.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+            [self addImageFinish:finished time:1];
+        }];
+    }else{
+        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"update"];
+    }
+}
+
+- (void)skipBtnClicked{
+    [self addImageFinish:YES time:0.2];
+}
+
+- (void)addImageFinish:(BOOL)finished time:(CGFloat)dalaytime{
+    [[UIApplication sharedApplication]setStatusBarHidden:NO];
+    [UIView animateWithDuration:dalaytime animations:^{
+        _adView.alpha = 0.0f;
+        _adBottomImg1.alpha = 0.0f;
+        _skipBtn.alpha = 0.0;
+        _btn.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [_skipBtn removeFromSuperview];
+        [_adBottomImg1 removeFromSuperview];
+        [_adView removeFromSuperview];
+        [_btn removeFromSuperview];
+    }];
+}
 
 #pragma mark - init
 

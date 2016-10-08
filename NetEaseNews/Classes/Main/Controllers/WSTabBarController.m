@@ -19,6 +19,8 @@
 @interface WSTabBarController ()
 @property (nonatomic ,strong) UIView *adView;
 @property (nonatomic ,strong) UIButton *skipBtn;
+@property (nonatomic ,strong) UIButton *btn;
+
 @property (nonatomic, strong) UIImageView *adBottomImg1;
 @end
 
@@ -158,7 +160,7 @@
     }
     //获取导航数组one
     WSOneMenuModel *home = [[WSOneMenuModel alloc] init];
-    home.Classname = @"首页";
+    home.Classname = @"新闻";
     home.Classen = @"sy";
     home.Parentid = 1;
     home.Depth = 1;
@@ -185,9 +187,7 @@
                 [tabbarArr removeObjectAtIndex:1];
             }else {
                 [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrTwo;
-            }
-
-            
+            }            
         }
             break;
         case 3://导航三个 考虑 二级下只有一个 有两个 有三个的情况
@@ -198,10 +198,10 @@
                 //加第一个
                 [tabbarArr removeObjectAtIndex:1];
                 [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrThree;
-            }else if(newArrTwo.count > 0&&newArrThree.count == 0){//加第二个
+            }else if(newArrTwo.count > 0&&newArrThree.count == 0){//加第二个 第三个tabbar 包含二级分类没有数据
                 [tabbarArr removeObjectAtIndex:2];
                 [WSMenuInstance sharedWSMenuInstance].menuTwoArr = newArrTwo;
-            }else if(newArrTwo.count == 0&&newArrThree.count == 0){
+            }else if(newArrTwo.count == 0&&newArrThree.count == 0){//第2 ,3个二级分类都没有数据
                 //两个都没有 不添加
                 [tabbarArr removeObjectAtIndex:1];
                 [tabbarArr removeObjectAtIndex:1];
@@ -244,6 +244,7 @@
         adImg.frame = CGRectMake(0, 0, self.view.width, self.view.height - 135);
         UIButton *btn = [[UIButton alloc] initWithFrame:adImg.bounds];
         [btn addTarget:self action:@selector(oneFingerTwoTaps:) forControlEvents:UIControlEventTouchUpInside];
+        _btn = btn;
         adView.alpha = 0.99f;
         [self.view addSubview:adView];
         [self.view addSubview:btn];
@@ -274,7 +275,8 @@
 
 - (void)oneFingerTwoTaps:(UIButton*)btn{
     
-    [btn removeFromSuperview];
+//    [btn removeFromSuperview];
+    [_btn removeFromSuperview];
     [self addImageFinish:YES time:0.2];
     
     static dispatch_once_t onceToken;
@@ -293,9 +295,10 @@
     [[UIApplication sharedApplication]setStatusBarHidden:NO];
     [UIView animateWithDuration:dalaytime animations:^{
         _adView.alpha = 0.0f;
-        _skipBtn.hidden = YES;
+        _skipBtn.alpha = 0.0;
+        _btn.alpha = 0.0;
     } completion:^(BOOL finished) {
-       
+        [_btn removeFromSuperview];
         [_skipBtn removeFromSuperview];
         [_adView removeFromSuperview];
     }];
@@ -319,7 +322,9 @@
     
     NSMutableArray *tabArr = [NSMutableArray array];
     [tabArr addObject:vc1];
-    [tabArr addObject:vc4];
+    if ([self isShowZt]) {
+        [tabArr addObject:vc4];
+    }
     if ([WSMenuInstance sharedWSMenuInstance].menuTwoArr.count>0) {
         [tabArr addObject:vc2];
     }
@@ -335,6 +340,18 @@
     }
 }
 
+
+- (BOOL)isShowZt{
+    for (WSOneMenuModel*model in  [WSMenuInstance sharedWSMenuInstance].allMenuArr) {
+        if (model.Parentid == -2) {
+            if (model.Isad == 0) {
+                return YES;
+            }
+            return NO;
+        }
+    }
+    return NO;
+}
 
 - (void)loadTabBarItems:(BOOL)success{
     
@@ -352,8 +369,12 @@
     //固定添加
     NSMutableArray *itemArr = [NSMutableArray array];
     NSMutableArray *itemArrSuccess = [NSMutableArray array];
-    [itemArrSuccess addObject:item1];//新闻
+    
+        [itemArrSuccess addObject:item1];//新闻
+   
+if ([self isShowZt]) {
     [itemArrSuccess addObject:item4];//话题
+}
     NSMutableArray *itemArrNotSuccess = [NSMutableArray array];
     if ([WSMenuInstance sharedWSMenuInstance].menuTwoArr.count>0) {
         

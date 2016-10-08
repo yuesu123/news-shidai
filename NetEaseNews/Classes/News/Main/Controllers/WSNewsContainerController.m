@@ -67,9 +67,10 @@
     if (self.tabBarController.selectedIndex == 0) {
         self.navigationItem.title = @"";
 
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 25)];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
         [button setImage:[UIImage imageNamed:@"nav_home_logo"] forState:UIControlStateNormal];
         [button setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
+        button.userInteractionEnabled = NO;
         UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:button];
         self.navigationItem.leftBarButtonItem = leftItem;
         
@@ -106,25 +107,40 @@
 
 #pragma mark - lazy loading
 
+//此处逻辑需要重新写
 - (NSArray *)news{
     
-//    if (!_news) {
         NSMutableArray *arrM = [NSMutableArray array];
         NSMutableArray* arrModelAll;
         if (self.tabBarController.selectedIndex == 0&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 1)) {
             arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuOneArr;
         }else if(self.tabBarController.selectedIndex == 0&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 2)) {
             arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuOneArr;
-        }else if(self.tabBarController.selectedIndex == 2&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 2)) {
-            arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuTwoArr;
         }else if(self.tabBarController.selectedIndex == 0&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 3)) {
             arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuOneArr;
-            
-        }else if(self.tabBarController.selectedIndex == 2&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 3)) {
+      //  ---- 下面的是显示专题的
+        }else if([self isShowZt]&&self.tabBarController.selectedIndex == 1&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count > 1)) {
             arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuTwoArr;
-        }else if(self.tabBarController.selectedIndex == 3&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 3)) {
+            
+        }else if([self isShowZt]&&self.tabBarController.selectedIndex == 2&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 2)) {
+            arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuTwoArr;
+        }else if([self isShowZt]&&self.tabBarController.selectedIndex == 2&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 3)) {//分专题隐藏和不隐藏
+            arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuTwoArr;
+        }else if([self isShowZt]&&self.tabBarController.selectedIndex == 3&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 3)) {
             arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuThreeArr;
+        //---下面是不显示专题
+        }else if((![self isShowZt])&&self.tabBarController.selectedIndex == 1&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count > 1)) {
+            arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuTwoArr;
+            
+        }else if((![self isShowZt])&&self.tabBarController.selectedIndex == 2&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 2)) {
+            arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuThreeArr;
+        }else if((![self isShowZt])&&self.tabBarController.selectedIndex == 2&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 3)) {//分专题隐藏和不隐藏
+            arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuThreeArr;
+        }else if((![self isShowZt])&&self.tabBarController.selectedIndex == 3&&([WSMenuInstance  sharedWSMenuInstance].tabbarArr.count == 3)) {
+            arrModelAll  = [WSMenuInstance sharedWSMenuInstance].menuFourArr;
         }
+
+
         
         for (WSOneMenuModel *model in arrModelAll) {
             /**频道的标识*/
@@ -138,8 +154,19 @@
         
         _news = arrM.copy;
         
-//    }
     return _news;
+}
+
+- (BOOL)isShowZt{
+    for (WSOneMenuModel*model in  [WSMenuInstance sharedWSMenuInstance].allMenuArr) {
+        if (model.Parentid == -2) {
+            if (model.Isad == 0) {
+                return YES;
+            }
+            return NO;
+        }
+    }
+    return NO;
 }
 
 

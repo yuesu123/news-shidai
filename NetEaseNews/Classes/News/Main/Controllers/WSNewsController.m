@@ -90,9 +90,9 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     _isShowAlert = YES;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationAddTap object:nil];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationAddTap object:nil];
+//    });
 }
 
 - (void)viewDidDisappear:(BOOL)animated{

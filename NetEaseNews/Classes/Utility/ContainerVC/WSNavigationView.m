@@ -28,6 +28,7 @@
 
 #pragma mark - event
 
+//按钮被点击
 - (void)itemClick:(UIButton *)sender {
     
     if ([sender isEqual:self.selectedItem]) return;
@@ -83,16 +84,21 @@
  
 }
 
+//获得点击的index
 - (void)setSelectedItemIndex:(NSInteger)selectedItemIndex{
     
     _selectedItemIndex = selectedItemIndex;
     
-    UIButton *item = self.btns[selectedItemIndex];
+    if (self.btns.count>0) {
+        ECLog(@"有大分类,而没有子分类");
+        UIButton *item = self.btns[selectedItemIndex];
+        [self itemClick:item];
+    }
     
-    [self itemClick:item];
+    
 }
 
-
+//设置ContentOffset
 - (void)setContentOffset:(CGPoint)contentOffset{
     
     [UIView animateWithDuration:0.25 animations:^{
@@ -119,13 +125,26 @@
     return nav;
 }
 
+//布局设置frame
 - (void)layoutSubviews{
-    
     [super layoutSubviews];
-    int itemW = Main_Screen_Width/self.btns.count;
+    //计算按钮的宽度
+    int btnW = Main_Screen_Width/(self.btns.count+1);
+    if (btnW<kItemW) {
+        btnW = kItemW;
+    }
+    
+    if (!_isHome) {
+        btnW = 0;
+    }
+    
+    int itemW = (Main_Screen_Width- btnW)/self.btns.count;
     if (itemW<kItemW) {
         itemW = kItemW;
     }
+    
+    
+    
     for (NSInteger i=0; i<self.btns.count; i++) {
         
         UIButton *item = self.btns[i];
@@ -143,12 +162,9 @@
 }
 
 - (void)setItems:(NSArray<NSString *> *)items{
-    
     _items = items;
-    
     //创建按钮
     for (NSInteger i=0; i<items.count; i++) {
-        
         UIButton *item = [[UIButton alloc] init];
         [item setTitle:items[i] forState:UIControlStateNormal];
         [item setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
@@ -163,24 +179,18 @@
         [self.views addObject:view];
         [self addSubview:item];
         [self addSubview:view];
-
-        
     }
 }
 
 - (void)setFrame:(CGRect)frame{
-    
     frame.size.height = kViewH;
     [super setFrame:frame];
 }
 
 - (instancetype)init{
-    
     if (self = [super init]) {
-        
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
-        
     }
     return self;
 }

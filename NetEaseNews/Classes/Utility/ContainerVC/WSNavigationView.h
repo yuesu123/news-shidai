@@ -17,5 +17,6 @@ typedef void (^itemClick)(NSInteger selectedIndex);
 @property (strong, nonatomic) NSArray<NSString *> *items;
 
 + (instancetype)navigationViewWithItems:(NSArray<NSString *> *)items itemClick:(itemClick)itemClick;
+@property (nonatomic,assign) BOOL isHome;
 
 @end
