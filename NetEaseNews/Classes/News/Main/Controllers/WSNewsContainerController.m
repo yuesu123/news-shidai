@@ -17,6 +17,7 @@
 #import "WSOneMenuModel.h"
 #import "NSMutableArray+safeMedthod.h"
 #import "NSArray+safeMethod.h"
+#import "WSTabBarController.h"
 
 @interface WSNewsContainerController ()
 
@@ -158,15 +159,7 @@
 }
 
 - (BOOL)isShowZt{
-    for (WSOneMenuModel*model in  [WSMenuInstance sharedWSMenuInstance].allMenuArr) {
-        if (model.Parentid == -2) {
-            if (model.Isad == 0) {
-                return YES;
-            }
-            return NO;
-        }
-    }
-    return NO;
+    return  [WSTabBarController isShowZt];
 }
 
 

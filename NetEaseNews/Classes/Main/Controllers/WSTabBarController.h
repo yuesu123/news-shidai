@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface WSTabBarController : UITabBarController
-
++ (BOOL)isShowZt;
 @end

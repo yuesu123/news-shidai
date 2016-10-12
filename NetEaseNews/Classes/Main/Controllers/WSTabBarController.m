@@ -49,6 +49,7 @@
         if ([response isKindOfClass:[NSArray class]]){
             NSArray *deserializedArray = (NSArray *)response;
             NSMutableArray *menuAllArr = [WSOneMenuModel objectArrayWithKeyValuesArray:deserializedArray];
+//            [self addTestmodel:menuAllArr];
             //获取总的数组
             [WSMenuInstance sharedWSMenuInstance].allMenuArr = menuAllArr;
             //获取导航数组
@@ -84,6 +85,58 @@
     
 }
 
+//tian
+- (void)addTestmodel:(NSMutableArray*)arr{
+
+    WSOneMenuModel *mod = [[WSOneMenuModel alloc] init];
+    mod.Id = 2;
+    mod.Classname = @"hah2";
+    mod.Classen = @"news";
+    mod.Parentid = 0;//tabbar 为0
+    mod.Parentpath = @"0.7.";
+    mod.Sortid = 2;
+    
+    
+    WSOneMenuModel *mod2 = [[WSOneMenuModel alloc] init];
+    mod2.Id = 8;
+    mod2.Classname = @"hah";
+    mod2.Classen = @"news";
+    mod2.Parentid = 7;
+    mod2.Parentpath = @"0.7.1.";
+    mod2.Sortid = 2;
+    WSOneMenuModel *mod21 = [[WSOneMenuModel alloc] init];
+    mod21.Id = 9;
+    mod21.Classname = @"hah";
+    mod21.Classen = @"news";
+    mod21.Parentid = 7;
+    mod21.Parentpath = @"0.7.2.";
+    mod21.Sortid = 2;
+    
+    WSOneMenuModel *mod3 = [[WSOneMenuModel alloc] init];
+    mod3.Id = 3;
+    mod3.Classname = @"xingwen3";
+    mod3.Classen = @"news";
+    mod3.Parentid = 0;//tabbar 为0
+    mod3.Parentpath = @"0.5.";
+    mod3.Sortid = 3;
+    
+    WSOneMenuModel *mod4 = [[WSOneMenuModel alloc] init];
+    mod4.Id = 2;
+    mod4.Classname = @"xingwen4";
+    mod4.Classen = @"news";
+    mod4.Parentid = 5;
+    mod4.Parentpath = @"0.5.1.";
+    mod4.Sortid = 2;
+
+    [arr addObject:mod];
+    [arr addObject:mod2];
+    [arr addObject:mod21];
+
+//    [arr addObject:mod3];
+//    [arr addObject:mod4];
+
+    
+}
 
 
 - (void)loadMenu:(BOOL)success{
@@ -223,6 +276,7 @@
 }
 
 
+
 - (void)adImage{
     [SXAdManager loadLatestAdImage];
     UIView *adView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
@@ -336,12 +390,16 @@
     if(success){//新闻+专题+...+我的
         self.viewControllers = tabArr;
     }else{//新闻+专题+我的
-       self.viewControllers = @[vc1,vc1, vc4, vc5];
+       self.viewControllers = @[vc1, vc5];
     }
 }
 
++ (BOOL)isShowZt{
+    return  [[[self alloc] init] isShowZt];
+}
 
 - (BOOL)isShowZt{
+//    return YES;
     for (WSOneMenuModel*model in  [WSMenuInstance sharedWSMenuInstance].allMenuArr) {
         if (model.Parentid == -2) {
             if (model.Isad == 0) {
@@ -394,9 +452,7 @@ if ([self isShowZt]) {
         [itemArr addObjectsFromArray:itemArrSuccess];
     }else{
         [itemArrNotSuccess addObject:item1];//新闻
-        [itemArrNotSuccess addObject:item2];//新闻
 
-        [itemArrNotSuccess addObject:item4];//话题
         [itemArrNotSuccess addObject:item5];//我的
         [itemArr addObjectsFromArray:itemArrNotSuccess];
     }

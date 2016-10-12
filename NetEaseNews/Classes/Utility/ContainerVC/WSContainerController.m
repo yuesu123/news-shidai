@@ -10,6 +10,8 @@
 #import "WSNavigationView.h"
 #import "SXAdManager.h"
 #import "LargeClickBtn.h"
+#import "WSMenuInstance.h"
+#import "WSTabBarController.h"
 
 #define keyWindow [UIApplication sharedApplication].keyWindow
 @interface WSContainerController ()<UICollectionViewDataSource, UICollectionViewDelegate>
@@ -116,7 +118,7 @@ static NSString *CellID = @"ControllerCell";
     addBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.view addSubview:addBtn];
     
-    
+
     
     if (self.navigationController && self.tabBarController) {
         
@@ -134,40 +136,67 @@ static NSString *CellID = @"ControllerCell";
 - (void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    if (self.tabBarController.selectedIndex == 0) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self addNavHomeBtn];
-        });
-    }
-    if (self.tabBarController.selectedIndex == 1) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self addNavHomeBtn];
-        });    }
-    if (self.tabBarController.selectedIndex == 2) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self addNavHomeBtn];
-        });    }
-    if (self.tabBarController.selectedIndex == 3) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self addNavHomeBtn];
-        });    }
-    if (self.tabBarController.selectedIndex == 4) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self addNavHomeBtn];
-        });
-    }
-    
+
+    [self addNavHomeBtnAll];
+
     
     
     self.flowLayout.itemSize = self.collectionView.bounds.size;
     
 }
 
+- (void)addNavHomeBtnAll{
+    NSInteger count = [WSMenuInstance sharedWSMenuInstance].tabbarArr.count;
+    if([WSTabBarController isShowZt]){
+        count = count+1;
+    }
+    if (self.tabBarController.selectedIndex == 0) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });
+    }
+    if (count<2) {
+        return;
+    }
+    if (self.tabBarController.selectedIndex == 1) {
+        
+        if ([WSTabBarController isShowZt]) {
+            return;
+        }
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });
+    }
+    if (count<3) {
+        return;
+    }
+    if (self.tabBarController.selectedIndex == 2) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });
+    }
+    if (count<4) {
+        return;
+    }
+    if (self.tabBarController.selectedIndex == 3) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });
+    }
+    if (count<5) {
+        return;
+    }
+    if (self.tabBarController.selectedIndex == 4) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self addNavHomeBtn];
+        });
+    }
+}
 
 - (void)addBtnClicked{
     ECLog(@"首页广告点击");
