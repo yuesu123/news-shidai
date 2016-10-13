@@ -238,7 +238,7 @@
     }
     NSString *url = [NSString stringWithFormat:@"%@%@",sg_privateNetworkBaseUrl,partUrl];
     ECLog(@"加载的网址%@",url);
-    url = @"http://blnews.cnnb.com.cn/pic/0/11/25/25/11252527_274915.jpg";
+//    url = @"http://blnews.cnnb.com.cn/pic/0/11/25/25/11252527_274915.jpg";
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webView loadRequest:request];
     
